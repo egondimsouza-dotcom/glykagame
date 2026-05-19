@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glyka Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #05080c; --neon: #00ff66; --blue: #00e5ff; --liquid: #00e5ff; --height: 0%; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; user-select: none; }
+        body { background: var(--bg); color: #fff; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 15px; }
+        .grid { display: grid; grid-template-columns: 280px 1fr 280px; gap: 20px; width: 100%; max-width: 1100px; z-index: 2; }
+        .panel { background: rgba(10, 18, 30, 0.6); border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 20px; backdrop-filter: blur(15px); display: flex; flex-direction: column; justify-content: space-between; gap: 15px; }
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: #fff; }
+        .title { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; letter-spacing: 1px; color: #8fa0b5; margin-bottom: 5px; text-transform: uppercase; }
+        .flavor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 12px; border-radius: 12px; color: #ccd6e0; cursor: pointer; font-size: 0.75rem; text-align: left; transition: 0.2s; }
+        .btn:hover, .btn.active { background: rgba(0, 255, 102, 0.1); border-color: var(--neon); color: #fff; }
+        .btn-main { background: linear-gradient(135deg, #102a45, #050d1a); border: 1px solid var(--blue); color: var(--blue); font-family: 'Orbitron', sans-serif; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; width: 100%; }
+        .btn-main:hover { box-shadow: 0 0 15px var(--blue); color: #fff; }
+        .btn-sub { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #a2b4c7; padding: 10px; border-radius: 10px; cursor: pointer; font-size: 0.8rem; }
+        .stage { display: flex; align-items: center; justify-content: center; position: relative; }
+        .bottle { position: relative; width: 150px; height: 380px; border: 2px solid rgba(255,255,255,0.15); border-radius: 40px 40px 30px 30px; background: rgba(255,255,255,0.03); box-shadow: inset 0 0 20px rgba(0,0,0,0.6); }
+        .bottle.shake { animation: shake 0.3s infinite linear; }
+        .cap { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); width: 60px; height: 20px; background: #3e4d5c; border-radius: 5px; }
+        .screen { position: absolute; top: 90px; left: 50%; transform: translateX(-50%); width: 60px; height: 80px; background: #000; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5; font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: var(--liquid); }
+        .led { position: absolute; bottom: 10px; left: 5%; width: 90%; height: 4px; background: var(--liquid); border-radius: 50%; box-shadow: 0 0 10px var(--liquid); }
+        .core { position: absolute; bottom: 5px; left: 5px; width: calc(100% - 10px); height: calc(100% - 10px); border-radius: 35px 35px 25px 25px; overflow: hidden; }
+        .reservoir { position: absolute; bottom: 0; width: 100%; height: var(--height); background: var(--liquid); transition: height 0.8s ease, background 0.4s ease; box-shadow: inset 0 10px 20px rgba(255,255,255,0.2), 0 0 20px var(--liquid); }
+        .row { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; font-size: 0.8rem; }
+        .row span:last-child { font-family: 'Orbitron', sans-serif; font-weight: bold; }
+        .terminal { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 10px; height: 110px; font-family: monospace; font-size: 0.7rem; color: var(--neon); overflow: hidden; display: flex; flex-direction: column; gap: 4px; }
+        @keyframes shake { 0%,100%{transform:scale(1)} 50%{transform:scale(0.98) rotate(1deg)} }
+        @media (max-width: 850px) { body { overflow-y: auto; height: auto; } .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="grid">
+        <section class="panel">
+            <div>
+                <h1>GLYKA</h1>
+                <p style="font-size:0.7rem; color:#61758a; uppercase; letter-spacing:1px;">OS v1.0</p>
+            </div>
+            <div>
+                <div class="title">Sabor Base</div>
+                <div class="flavor-grid" id="flavors">
+                    <button class="btn active" data-name="Agua Pura" data-color="#00e5ff" data-energy="02 kW">Água Pura</button>
+                    <button class="btn" data-name="Suco Laranja" data-color="#ff7b00" data-energy="35 kW">Suco Laranja</button>
+                    <button class="btn" data-name="Quantum Cola" data-color="#5c3a21" data-energy="58 kW">Quantum Cola</button>
+                    <button class="btn" data-name="Matcha Zen" data-color="#66ff00" data-energy="15 kW">Matcha Zen</button>
+                    <button class="btn" data-name="Hyper Drive" data-color="#9d00ff" data-energy="88 kW">Hyper Drive</button>
+                    <button class="btn" data-name="Ion Lemon" data-color="#d4ff00" data-energy="22 kW">Ion Lemon</button>
+                </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                <button class="btn-main" id="synthBtn">Sintetizar</button>
+                <button class="btn-sub" id="fillBtn">Encher Garrafa</button>
+            </div>
+        </section>
+
+        <section class="stage">
+            <div class="bottle" id="bottle">
+                <div class="cap"></div>
+                <div class="screen" id="scr">0%</div>
+                <div class="led"></div>
+                <div class="core"><div class="reservoir" id="res"></div></div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                <div class="title">Status do Sistema</div>
+                <div class="row"><span>Fórmula:</span><span id="stFlv">Água Pura</span></div>
+                <div class="row"><span>Status:</span><span id="stState" style="color:var(--neon);">ESTÁVEL</span></div>
+                <div class="row"><span>Energia:</span><span id="stNrg">02 kW</span></div>
+            </div>
+            <div>
+                <div class="title">Painel IA</div>
+                <div class="terminal" id="term"><div>[SYS]: Glyka ativa e operacional.</div></div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const s = { filled: false, transforming: false, name: 'Água Pura', color: '#00e5ff', energy: '02 kW', level: 0 };
+        const log = (m) => { 
+            const t = document.getElementById('term');
+            t.innerHTML += `<div>[LOG]: ${m}</div>`;
+            if(t.children.length > 5) t.children[0].remove();
+        };
+
+        document.getElementById('flavors').addEventListener('click', (e) => {
+            if (s.transforming || !e.target.classList.contains('btn')) return;
+            document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            s.name = e.target.dataset.name;
+            s.color = e.target.dataset.color;
+            s.energy = e.target.dataset.energy;
+            log(`Alvo: ${s.name}`);
+        });
+
+        document.getElementById('fillBtn').addEventListener('click', () => {
+            if (s.transforming) return;
+            s.filled = !s.filled;
+            s.level = s.filled ? 85 : 0;
+            document.documentElement.style.setProperty('--height', s.level + '%');
+            document.getElementById('scr').innerText = s.level + '%';
+            document.getElementById('fillBtn').innerText = s.filled ? 'Esvaziar' : 'Encher Garrafa';
+            log(s.filled ? 'Reservatório carregado.' : 'Reservatório limpo.');
+            document.getElementById('stState').innerText = s.filled ? 'PRONTO' : 'VAZIO';
+        });
+
+        document.getElementById('synthBtn').addEventListener('click', () => {
+            if (!s.filled || s.transforming) return log('ERRO: Garrafa vazia!');
+            s.transforming = true;
+            document.getElementById('stState').innerText = 'REARRANJANDO';
+            document.getElementById('bottle').classList.add('shake');
+            log('Iniciando fusão molecular...');
+            
+            setTimeout(() => {
+                document.documentElement.style.setProperty('--liquid', s.color);
+                document.getElementById('stFlv').innerText = s.name;
+                document.getElementById('stNrg').innerText = s.energy;
+                document.getElementById('stState').innerText = 'OTIMIZADO';
+                document.getElementById('bottle').classList.remove('shake');
+                log('Síntese concluída com sucesso.');
+                s.transforming = false;
+            }, 1200);
+        });
+    </script>
+</body>
+</html>
